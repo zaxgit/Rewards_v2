@@ -1,0 +1,9 @@
+.customer-list {
+  height: inherit;
+  width: inherit;
+}
+
+.customer-list li {
+  list-style: none;
+  padding: 10px;
+}
