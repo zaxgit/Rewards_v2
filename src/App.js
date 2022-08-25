@@ -1,5 +1,5 @@
 import Container from './components/UI/Container';
-import CustomersList from './components/Customers/CustomersList';
+import CustomersList from './components/Customers/Customers';
 import './App.css';
 
 function App() {
