@@ -1,6 +1,15 @@
 .customer {
-  width: 250px;
-  height: 400px;
-  max-width: 250px;
-  max-height: 400px;
+  margin: 0px;
+  justify-self: center;
+}
+
+.customer h2 {
+  color: rgb(112, 194, 213);
+  font-size: 30px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.customer .customer-data {
+  display: inline-block;
 }

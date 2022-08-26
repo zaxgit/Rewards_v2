@@ -4,7 +4,7 @@ import Table from '../UI/Table';
 import Button from '../UI/Button';
 
 const calculatePoints = (transactions) => {
-  return transactions
+  const points = transactions
     .map((amount) => {
       if (amount > 50 && amount <= 100) {
         return amount - 50;
@@ -19,6 +19,7 @@ const calculatePoints = (transactions) => {
     .reduce((acc, pointAmount) => {
       return acc + pointAmount;
     });
+  return points;
 };
 
 const calculateTotalPoints = (orders) => {
@@ -33,19 +34,18 @@ const calculateTotalPoints = (orders) => {
 
 const groupByMonth = (totalsByNumericMonth, property) => {
   // Group totals by numeric month
-  return (
-    totalsByNumericMonth
-      .reduce((acc, curr) => {
-        let key = curr[property];
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(curr.total);
-        return acc;
-      }, [])
-      // Filter out empty array
-      .filter((total) => total)
-  );
+  const groupedMonthlyTotals = totalsByNumericMonth
+    .reduce((acc, curr) => {
+      let key = curr[property];
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(curr.total);
+      return acc;
+    }, [])
+    // Filter out empty array
+    .filter((total) => total);
+  return groupedMonthlyTotals;
 };
 
 const getMonths = (orders) => {
@@ -58,61 +58,66 @@ const getMonths = (orders) => {
 
 const getMonthsAsStrings = (totalsByNumericMonth) => {
   // Return a new array with no duplicates
-  return (
-    totalsByNumericMonth
-      .reduce((prevInit, current) => {
-        if (!prevInit.includes(current.month)) {
-          return prevInit.concat(current.month);
-        }
-        return prevInit;
-      }, [])
+  const monthsAsStrings = totalsByNumericMonth
+    .reduce((prevInit, current) => {
+      if (!prevInit.includes(current.month)) {
+        return prevInit.concat(current.month);
+      }
+      return prevInit;
+    }, [])
 
-      // Check numeric month value and return an array of string value months
-      .map((month) => {
-        switch (month) {
-          case 1: {
-            return 'Jan';
-          }
-          case 2: {
-            return 'Feb';
-          }
-          case 3: {
-            return 'Mar';
-          }
-          case 4: {
-            return 'Apr';
-          }
-          case 5: {
-            return 'May';
-          }
-          case 6: {
-            return 'Jun';
-          }
-          case 7: {
-            return 'Jul';
-          }
-          case 8: {
-            return 'Aug';
-          }
-          case 9: {
-            return 'Oct';
-          }
-          case 10: {
-            return 'Sep';
-          }
-          case 11: {
-            return 'Nov';
-          }
-          case 12: {
-            return 'Dec';
-          }
+    // Check numeric month value and return an array of string value months
+    .map((month) => {
+      switch (month) {
+        case 1: {
+          return 'Jan';
         }
-      })
-  );
+        case 2: {
+          return 'Feb';
+        }
+        case 3: {
+          return 'Mar';
+        }
+        case 4: {
+          return 'Apr';
+        }
+        case 5: {
+          return 'May';
+        }
+        case 6: {
+          return 'Jun';
+        }
+        case 7: {
+          return 'Jul';
+        }
+        case 8: {
+          return 'Aug';
+        }
+        case 9: {
+          return 'Oct';
+        }
+        case 10: {
+          return 'Sep';
+        }
+        case 11: {
+          return 'Nov';
+        }
+        case 12: {
+          return 'Dec';
+        }
+        default: {
+          break;
+        }
+      }
+      return;
+    });
+
+  return monthsAsStrings;
 };
 
 const PointDetails = (props) => {
   const { orders } = props;
+
   const [isExpanded, setIsExpanded] = useState(false);
 
   const totalPoints = calculateTotalPoints(orders);
@@ -130,6 +135,7 @@ const PointDetails = (props) => {
   const showDataHandler = () => {
     setIsExpanded(!isExpanded);
   };
+
   return (
     <>
       <Button onClick={showDataHandler}>Points</Button>

@@ -55,7 +55,7 @@ const Customer = (props) => {
   return (
     <Card className={classes.customer}>
       <h2>{props.name}</h2>
-      <div>{customerData}</div>
+      <div className={classes['customer-data']}>{customerData}</div>
     </Card>
   );
 };
