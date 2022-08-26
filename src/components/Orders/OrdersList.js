@@ -1,12 +1,8 @@
-import { useState } from 'react';
 import classes from './OrdersList.module.css';
 import Table from '../UI/Table';
-import Button from '../UI/Button';
 
 const OrdersList = (props) => {
   const { orders } = props;
-
-  const [isExpanded, setIsExpanded] = useState(false);
 
   let content;
   if (orders.length > 0) {
@@ -21,22 +17,13 @@ const OrdersList = (props) => {
     });
   }
 
-  const showDataHandler = () => {
-    setIsExpanded(!isExpanded);
-  };
-
   return (
-    <>
-      <Button onClick={showDataHandler}>Orders</Button>
-      {isExpanded && (
-        <Table
-          className={classes.expanded}
-          headers={['Order Id', 'Order Date', 'Order Total']}
-        >
-          {content}
-        </Table>
-      )}
-    </>
+    <Table
+      className={classes.expanded}
+      headers={['Order Id', 'Order Date', 'Order Total']}
+    >
+      {content}
+    </Table>
   );
 };
 

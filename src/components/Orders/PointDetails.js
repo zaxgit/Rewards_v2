@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import classes from './PointDetails.module.css';
 import Table from '../UI/Table';
-import Button from '../UI/Button';
 
 const calculatePoints = (transactions) => {
   return transactions
@@ -113,7 +111,6 @@ const getMonthsAsStrings = (totalsByNumericMonth) => {
 
 const PointDetails = (props) => {
   const { orders } = props;
-  const [isExpanded, setIsExpanded] = useState(false);
 
   const totalPoints = calculateTotalPoints(orders);
 
@@ -127,21 +124,13 @@ const PointDetails = (props) => {
     return <td key={idx}>{calculatePoints(pointTotal)}</td>;
   });
 
-  const showDataHandler = () => {
-    setIsExpanded(!isExpanded);
-  };
   return (
-    <>
-      <Button onClick={showDataHandler}>Points</Button>
-      {isExpanded && (
-        <Table headers={['TOTAL', ...monthsAsStrings]}>
-          <tr>
-            <td>{totalPoints}</td>
-            {monthlyTotals}
-          </tr>
-        </Table>
-      )}
-    </>
+    <Table headers={['TOTAL', ...monthsAsStrings]}>
+      <tr>
+        <td>{totalPoints}</td>
+        {monthlyTotals}
+      </tr>
+    </Table>
   );
 };
 
