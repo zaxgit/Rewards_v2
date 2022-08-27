@@ -1,7 +1,7 @@
 import Customer from './Customer';
 import { useState, useEffect } from 'react';
 import useHttp from '../../hooks/use-http';
-import classes from './CustomersList.module.css';
+import classes from './Customers.module.css';
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState();
@@ -27,32 +27,24 @@ const CustomerList = () => {
 
   let content;
   if (isLoading) {
-    content = (
-      <li>
-        <p>Loading...</p>
-      </li>
-    );
+    content = <p>Loading...</p>;
   }
 
   if (error) {
-    content = (
-      <li>
-        <p>{error}</p>
-      </li>
-    );
+    content = <p>{error}</p>;
   }
 
   if (customers) {
     content = customers.map((customer) => {
       return (
-        <li key={customer.id}>
+        <div key={customer.id} className={classes['grid-item']}>
           <Customer id={customer.id} name={customer.name} />
-        </li>
+        </div>
       );
     });
   }
 
-  return <ul className={classes['customer-list']}>{content}</ul>;
+  return <div className={classes.grid}>{content}</div>;
 };
 
 export default CustomerList;

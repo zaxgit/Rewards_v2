@@ -1,6 +1,16 @@
 .customer {
-  width: 250px;
-  height: 400px;
   max-width: 250px;
   max-height: 400px;
+}
+
+.customer h2 {
+  margin: 0 0 0 20;
+  padding: 0;
+  color: rgb(120, 199, 223);
+}
+
+.content {
+  height: auto;
+  background: rgb(222, 221, 224);
+  border-radius: 10px;
 }

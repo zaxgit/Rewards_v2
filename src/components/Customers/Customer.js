@@ -5,7 +5,7 @@ import useHttp from '../../hooks/use-http';
 
 import Card from '../UI/Card';
 import PointDetails from '../Orders/PointDetails';
-import OrdersList from '../Orders/OrdersList';
+import Orders from '../Orders/Orders';
 
 const Customer = (props) => {
   const [orders, setOrders] = useState([]);
@@ -43,7 +43,7 @@ const Customer = (props) => {
   if (orders.length > 0)
     customerData = (
       <>
-        <OrdersList orders={orders} isLoading={isLoading} error={error} />
+        <Orders orders={orders} isLoading={isLoading} error={error} />
         <PointDetails
           orders={orders}
           customerId={props.id}
@@ -55,7 +55,7 @@ const Customer = (props) => {
   return (
     <Card className={classes.customer}>
       <h2>{props.name}</h2>
-      <div>{customerData}</div>
+      <div className={classes.content}>{customerData}</div>
     </Card>
   );
 };

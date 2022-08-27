@@ -1,4 +1,4 @@
-import classes from './OrdersList.module.css';
+import classes from './Orders.module.css';
 import Table from '../UI/Table';
 
 const OrdersList = (props) => {

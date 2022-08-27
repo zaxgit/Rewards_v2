@@ -1,4 +1,3 @@
-import classes from './PointDetails.module.css';
 import Table from '../UI/Table';
 
 const calculatePoints = (transactions) => {
@@ -48,65 +47,77 @@ const groupByMonth = (totalsByNumericMonth, property) => {
 
 const getMonths = (orders) => {
   // Change date format to numeric month
-  return orders.map((order) => {
+  const totalsByNumericMonth = orders.map((order) => {
     const month = new Date(order.date).getMonth() + 1;
     return { month, total: order.total };
   });
+  const sortedMonths = totalsByNumericMonth.sort((a, b) => {
+    if (a.month < b.month) {
+      return -1;
+    } else if (a.month > b.month) {
+      return 1;
+    } else if (a.month === b.month) {
+      return 0;
+    }
+  });
+  return sortedMonths;
 };
 
 const getMonthsAsStrings = (totalsByNumericMonth) => {
   // Return a new array with no duplicates
-  return (
-    totalsByNumericMonth
-      .reduce((prevInit, current) => {
-        if (!prevInit.includes(current.month)) {
-          return prevInit.concat(current.month);
-        }
-        return prevInit;
-      }, [])
+  const months = totalsByNumericMonth
+    .reduce((prevInit, current) => {
+      if (!prevInit.includes(current.month)) {
+        return prevInit.concat(current.month);
+      }
+      return prevInit;
+    }, [])
 
-      // Check numeric month value and return an array of string value months
-      .map((month) => {
-        switch (month) {
-          case 1: {
-            return 'Jan';
-          }
-          case 2: {
-            return 'Feb';
-          }
-          case 3: {
-            return 'Mar';
-          }
-          case 4: {
-            return 'Apr';
-          }
-          case 5: {
-            return 'May';
-          }
-          case 6: {
-            return 'Jun';
-          }
-          case 7: {
-            return 'Jul';
-          }
-          case 8: {
-            return 'Aug';
-          }
-          case 9: {
-            return 'Oct';
-          }
-          case 10: {
-            return 'Sep';
-          }
-          case 11: {
-            return 'Nov';
-          }
-          case 12: {
-            return 'Dec';
-          }
+    // Check numeric month value and return an array of string value months
+    .map((month) => {
+      switch (month) {
+        case 1: {
+          return 'Jan';
         }
-      })
-  );
+        case 2: {
+          return 'Feb';
+        }
+        case 3: {
+          return 'Mar';
+        }
+        case 4: {
+          return 'Apr';
+        }
+        case 5: {
+          return 'May';
+        }
+        case 6: {
+          return 'Jun';
+        }
+        case 7: {
+          return 'Jul';
+        }
+        case 8: {
+          return 'Aug';
+        }
+        case 9: {
+          return 'Oct';
+        }
+        case 10: {
+          return 'Sep';
+        }
+        case 11: {
+          return 'Nov';
+        }
+        case 12: {
+          return 'Dec';
+        }
+        default: {
+          break;
+        }
+      }
+    });
+  return months;
 };
 
 const PointDetails = (props) => {

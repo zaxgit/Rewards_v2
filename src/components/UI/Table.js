@@ -1,3 +1,4 @@
+import classes from './Table.module.css';
 const Table = (props) => {
   const { headers } = props;
 
@@ -6,7 +7,7 @@ const Table = (props) => {
   });
 
   return (
-    <table className={props.className}>
+    <table className={`${classes.table} ${props.className}`}>
       <thead>
         <tr>{headerTags}</tr>
       </thead>
