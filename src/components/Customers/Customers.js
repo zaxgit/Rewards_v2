@@ -1,9 +1,12 @@
-import Customer from './Customer';
 import { useState, useEffect } from 'react';
+
+import Lottie from 'lottie-react';
+import paperplane from '../../lotties/paperplane-loading.json';
+import Customer from './Customer';
 import useHttp from '../../hooks/use-http';
 import classes from './Customers.module.css';
 
-const CustomerList = () => {
+const Customers = () => {
   const [customers, setCustomers] = useState();
   const { isLoading, error, requestData } = useHttp();
 
@@ -27,24 +30,34 @@ const CustomerList = () => {
 
   let content;
   if (isLoading) {
-    content = <p>Loading...</p>;
+    content = (
+      <Lottie
+        className={classes.lottie}
+        animationData={paperplane}
+        loop={true}
+      />
+    );
   }
 
   if (error) {
     content = <p>{error}</p>;
   }
 
-  if (customers) {
-    content = customers.map((customer) => {
-      return (
-        <div key={customer.id} className={classes['grid-item']}>
-          <Customer id={customer.id} name={customer.name} />
-        </div>
-      );
-    });
+  if (customers && !isLoading) {
+    content = (
+      <div className={classes.grid}>
+        {customers.map((customer) => {
+          return (
+            <div key={customer.id} className={classes['grid-item']}>
+              <Customer id={customer.id} name={customer.name} />
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 
-  return <div className={classes.grid}>{content}</div>;
+  return <>{content}</>;
 };
 
-export default CustomerList;
+export default Customers;

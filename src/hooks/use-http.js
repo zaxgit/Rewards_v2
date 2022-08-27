@@ -25,7 +25,9 @@ const useHttp = () => {
     } catch (error) {
       setError(error.message);
     }
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   }, []);
 
   return {

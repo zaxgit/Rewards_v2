@@ -47,20 +47,20 @@ const groupByMonth = (totalsByNumericMonth, property) => {
 
 const getMonths = (orders) => {
   // Change date format to numeric month
-  const totalsByNumericMonth = orders.map((order) => {
-    const month = new Date(order.date).getMonth() + 1;
-    return { month, total: order.total };
-  });
-  const sortedMonths = totalsByNumericMonth.sort((a, b) => {
-    if (a.month < b.month) {
-      return -1;
-    } else if (a.month > b.month) {
-      return 1;
-    } else if (a.month === b.month) {
-      return 0;
-    }
-  });
-  return sortedMonths;
+  return orders
+    .map((order) => {
+      const month = new Date(order.date).getMonth() + 1;
+      return { month, total: order.total };
+    })
+    .sort((a, b) => {
+      if (a.month < b.month) {
+        return -1;
+      } else if (a.month > b.month) {
+        return 1;
+      } else if (a.month === b.month) {
+        return 0;
+      }
+    });
 };
 
 const getMonthsAsStrings = (totalsByNumericMonth) => {
