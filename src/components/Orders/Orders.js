@@ -18,12 +18,15 @@ const OrdersList = (props) => {
   }
 
   return (
-    <Table
-      className={classes.expanded}
-      headers={['Order Id', 'Order Date', 'Order Total']}
-    >
-      {content}
-    </Table>
+    <>
+      <h3>ORDERS</h3>
+      <Table
+        className={classes.expanded}
+        headers={['Order Id', 'Order Date', 'Order Total']}
+      >
+        {content}
+      </Table>
+    </>
   );
 };
 

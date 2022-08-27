@@ -136,12 +136,15 @@ const PointDetails = (props) => {
   });
 
   return (
-    <Table headers={['TOTAL', ...monthsAsStrings]}>
-      <tr>
-        <td>{totalPoints}</td>
-        {monthlyTotals}
-      </tr>
-    </Table>
+    <>
+      <h3>POINTS</h3>
+      <Table headers={['Total', ...monthsAsStrings]}>
+        <tr>
+          <td>{totalPoints}</td>
+          {monthlyTotals}
+        </tr>
+      </Table>
+    </>
   );
 };
 
