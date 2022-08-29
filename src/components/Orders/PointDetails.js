@@ -45,22 +45,18 @@ const groupByMonth = (totalsByNumericMonth, property) => {
   );
 };
 
-const getMonths = (orders) => {
+const getNumericMonths = (orders) => {
   // Change date format to numeric month
-  return orders
+  const numericMonths = orders
     .map((order) => {
       const month = new Date(order.date).getMonth() + 1;
       return { month, total: order.total };
     })
+    //Sort totals by month to have an expected order
     .sort((a, b) => {
-      if (a.month < b.month) {
-        return -1;
-      } else if (a.month > b.month) {
-        return 1;
-      } else if (a.month === b.month) {
-        return 0;
-      }
+      return a.month - b.month;
     });
+  return numericMonths;
 };
 
 const getMonthsAsStrings = (totalsByNumericMonth) => {
@@ -116,6 +112,7 @@ const getMonthsAsStrings = (totalsByNumericMonth) => {
           break;
         }
       }
+      return;
     });
   return months;
 };
@@ -125,7 +122,7 @@ const PointDetails = (props) => {
 
   const totalPoints = calculateTotalPoints(orders);
 
-  const totalsByNumericMonth = getMonths(orders);
+  const totalsByNumericMonth = getNumericMonths(orders);
 
   const monthsAsStrings = getMonthsAsStrings(totalsByNumericMonth);
 
