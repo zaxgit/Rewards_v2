@@ -25,7 +25,7 @@ const Customer = (props) => {
 
     requestData(
       {
-        url: 'https://rewards-1acde-default-rtdb.firebaseio.com/orders.json',
+        url: 'https://rewards-ecbd0-default-rtdb.firebaseio.com/orders.json',
       },
       requestDataHandler
     );

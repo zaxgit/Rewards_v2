@@ -19,7 +19,7 @@ const Customers = () => {
 
     requestData(
       {
-        url: 'https://rewards-1acde-default-rtdb.firebaseio.com/customers.json',
+        url: 'https://rewards-ecbd0-default-rtdb.firebaseio.com/customers.json',
       },
       requestDataHandler
     );
