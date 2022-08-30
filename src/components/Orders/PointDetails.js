@@ -1,7 +1,7 @@
 import Table from '../UI/Table';
-
+import MonthlyTotals from './MonthlyTotals';
 const calculatePoints = (transactions) => {
-  return transactions
+  const points = transactions
     .map((amount) => {
       if (amount > 50 && amount <= 100) {
         return amount - 50;
@@ -16,6 +16,7 @@ const calculatePoints = (transactions) => {
     .reduce((acc, pointAmount) => {
       return acc + pointAmount;
     });
+  return points;
 };
 
 const calculateTotalPoints = (orders) => {
@@ -28,26 +29,9 @@ const calculateTotalPoints = (orders) => {
   return totalPoints;
 };
 
-const groupByMonth = (totalsByNumericMonth, property) => {
-  // Group totals by numeric month
-  return (
-    totalsByNumericMonth
-      .reduce((acc, curr) => {
-        let key = curr[property];
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(curr.total);
-        return acc;
-      }, [])
-      // Filter out empty array
-      .filter((total) => total)
-  );
-};
-
 const getNumericMonths = (orders) => {
   // Change date format to numeric month
-  const numericMonths = orders
+  const totalsByNumericMonths = orders
     .map((order) => {
       const month = new Date(order.date).getMonth() + 1;
       return { month, total: order.total };
@@ -56,7 +40,8 @@ const getNumericMonths = (orders) => {
     .sort((a, b) => {
       return a.month - b.month;
     });
-  return numericMonths;
+
+  return totalsByNumericMonths;
 };
 
 const getMonthsAsStrings = (totalsByNumericMonth) => {
@@ -68,7 +53,6 @@ const getMonthsAsStrings = (totalsByNumericMonth) => {
       }
       return prevInit;
     }, [])
-
     // Check numeric month value and return an array of string value months
     .map((month) => {
       switch (month) {
@@ -112,7 +96,7 @@ const getMonthsAsStrings = (totalsByNumericMonth) => {
           break;
         }
       }
-      return;
+      return null;
     });
   return months;
 };
@@ -126,19 +110,16 @@ const PointDetails = (props) => {
 
   const monthsAsStrings = getMonthsAsStrings(totalsByNumericMonth);
 
-  const groupedTotals = groupByMonth(totalsByNumericMonth, 'month');
-
-  const monthlyTotals = groupedTotals.map((pointTotal, idx) => {
-    return <td key={idx}>{calculatePoints(pointTotal)}</td>;
-  });
-
   return (
     <>
       <h3>POINTS</h3>
       <Table headers={['Total', ...monthsAsStrings]}>
         <tr>
           <td>{totalPoints}</td>
-          {monthlyTotals}
+          <MonthlyTotals
+            totalsByNumericMonth={totalsByNumericMonth}
+            calculatePoints={calculatePoints}
+          />
         </tr>
       </Table>
     </>
