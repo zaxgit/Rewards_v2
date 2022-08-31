@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 
+import classes from './Customers.module.css';
+
 import Lottie from 'lottie-react';
 import paperplane from '../../lotties/paperplane-loading.json';
-import Customer from './Customer';
 import useHttp from '../../hooks/use-http';
-import classes from './Customers.module.css';
+import Error from '../UI/Error';
+import Customer from './Customer';
 
 const Customers = () => {
   const [customers, setCustomers] = useState();
@@ -23,9 +25,6 @@ const Customers = () => {
       },
       requestDataHandler
     );
-    return () => {
-      console.log('CLEANUP');
-    };
   }, [requestData]);
 
   let content;
@@ -40,7 +39,11 @@ const Customers = () => {
   }
 
   if (error) {
-    content = <p>{error}</p>;
+    content = (
+      <Error>
+        <p>{error}</p>
+      </Error>
+    );
   }
 
   if (customers && !isLoading) {

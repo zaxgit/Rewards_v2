@@ -8,6 +8,7 @@ import PointDetails from '../Orders/PointDetails';
 import Orders from '../Orders/Orders';
 
 const Customer = (props) => {
+  const { id, name } = props;
   const [orders, setOrders] = useState([]);
 
   const { isLoading, error, requestData } = useHttp();
@@ -16,7 +17,7 @@ const Customer = (props) => {
     const requestDataHandler = (allOrders) => {
       if (allOrders) {
         const filteredOrders = allOrders.filter(
-          (order) => props.id === order.customer
+          (order) => id === order.customer
         );
 
         setOrders(filteredOrders);
@@ -29,7 +30,7 @@ const Customer = (props) => {
       },
       requestDataHandler
     );
-  }, [requestData, props.id]);
+  }, [requestData, id]);
 
   let customerData;
   if (error) {
@@ -44,17 +45,13 @@ const Customer = (props) => {
     customerData = (
       <>
         <Orders orders={orders} isLoading={isLoading} error={error} />
-        <PointDetails
-          orders={orders}
-          customerId={props.id}
-          isLoading={isLoading}
-        />
+        <PointDetails orders={orders} customerId={id} isLoading={isLoading} />
       </>
     );
 
   return (
     <Card className={classes.customer}>
-      <h2>{props.name}</h2>
+      <h2>{name}</h2>
       <div className={classes.content}>{customerData}</div>
     </Card>
   );
