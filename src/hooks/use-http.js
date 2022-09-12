@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [hasError, setHasError] = useState(null);
 
   const requestData = useCallback(async (requestConfig, applyData) => {
     setIsLoading(true);
-    setError(null);
+    setHasError(null);
     try {
       const res = await fetch(requestConfig.url, {
         method: requestConfig.method ? requestConfig.method : 'GET',
@@ -23,16 +23,16 @@ const useHttp = () => {
 
       applyData(resData);
     } catch (error) {
-      setError(error.message);
+      setHasError(error.message);
     }
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 800);
   }, []);
 
   return {
     isLoading,
-    error,
+    hasError,
     requestData,
   };
 };

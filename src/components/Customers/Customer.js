@@ -9,9 +9,10 @@ import Orders from '../Orders/Orders';
 
 const Customer = (props) => {
   const { id, name } = props;
+
   const [orders, setOrders] = useState([]);
 
-  const { isLoading, error, requestData } = useHttp();
+  const { isLoading, hasError, requestData } = useHttp();
 
   useEffect(() => {
     const requestDataHandler = (allOrders) => {
@@ -32,27 +33,31 @@ const Customer = (props) => {
     );
   }, [requestData, id]);
 
-  let customerData;
-  if (error) {
-    customerData = <p>{error}</p>;
+  let content;
+  if (isLoading) {
+    content = <p>Customer orders loading!</p>;
   }
 
-  if (isLoading) {
-    customerData = <p>Customer orders loading!</p>;
+  if (hasError) {
+    content = <p>{hasError}</p>;
+  }
+
+  if (orders.length <= 0) {
+    content = <p>No orders found!</p>;
   }
 
   if (orders.length > 0)
-    customerData = (
+    content = (
       <>
-        <Orders orders={orders} isLoading={isLoading} error={error} />
-        <PointDetails orders={orders} customerId={id} isLoading={isLoading} />
+        <Orders orders={orders} />
+        <PointDetails orders={orders} customerId={id} />
       </>
     );
 
   return (
     <Card className={classes.customer}>
       <h2>{name}</h2>
-      <div className={classes.content}>{customerData}</div>
+      <div className={classes.content}>{content}</div>
     </Card>
   );
 };

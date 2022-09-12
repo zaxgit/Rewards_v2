@@ -10,7 +10,7 @@ import Customer from './Customer';
 
 const Customers = () => {
   const [customers, setCustomers] = useState();
-  const { isLoading, error, requestData } = useHttp();
+  const { isLoading, hasError, requestData } = useHttp();
 
   useEffect(() => {
     const requestDataHandler = (fetchedCustomers) => {
@@ -27,9 +27,8 @@ const Customers = () => {
     );
   }, [requestData]);
 
-  let content;
   if (isLoading) {
-    content = (
+    return (
       <Lottie
         className={classes.lottie}
         animationData={paperplane}
@@ -38,16 +37,16 @@ const Customers = () => {
     );
   }
 
-  if (error) {
-    content = (
+  if (hasError && !isLoading) {
+    return (
       <Error>
-        <p>{error}</p>
+        <p>{hasError}</p>
       </Error>
     );
   }
 
   if (customers && !isLoading) {
-    content = (
+    return (
       <div className={classes.grid}>
         {customers.map((customer) => {
           return (
@@ -59,8 +58,6 @@ const Customers = () => {
       </div>
     );
   }
-
-  return <>{content}</>;
 };
 
 export default Customers;
