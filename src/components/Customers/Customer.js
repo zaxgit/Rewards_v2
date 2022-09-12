@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import classes from './Customer.module.css';
 import useHttp from '../../hooks/use-http';
 
+import { orderRequestConfig } from '../../config/config';
 import Card from '../UI/Card';
 import PointDetails from '../Orders/PointDetails';
 import Orders from '../Orders/Orders';
@@ -25,12 +26,7 @@ const Customer = (props) => {
       }
     };
 
-    requestData(
-      {
-        url: 'https://rewards-ecbd0-default-rtdb.firebaseio.com/orders.json',
-      },
-      requestDataHandler
-    );
+    requestData(orderRequestConfig, requestDataHandler);
   }, [requestData, id]);
 
   let content;

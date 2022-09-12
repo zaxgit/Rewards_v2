@@ -5,6 +5,7 @@ import classes from './Customers.module.css';
 import Lottie from 'lottie-react';
 import paperplane from '../../lotties/paperplane-loading.json';
 import useHttp from '../../hooks/use-http';
+import { customerRequestCongig } from '../../config/config';
 import Error from '../UI/Error';
 import Customer from './Customer';
 
@@ -19,12 +20,7 @@ const Customers = () => {
       }
     };
 
-    requestData(
-      {
-        url: 'https://rewards-ecbd0-default-rtdb.firebaseio.com/customers.json',
-      },
-      requestDataHandler
-    );
+    requestData(customerRequestCongig, requestDataHandler);
   }, [requestData]);
 
   if (isLoading) {
