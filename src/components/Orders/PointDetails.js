@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import Table from '../UI/Table';
 import MonthlyTotals from './MonthlyTotals';
 const calculatePoints = (transactions) => {
@@ -101,9 +103,10 @@ const getMonthsAsStrings = (totalsByNumericMonth) => {
   return months;
 };
 
-const PointDetails = (props) => {
-  const { orders } = props;
-
+PointDetails.propTypes = {
+  orders: PropTypes.array.isRequired,
+};
+function PointDetails({ orders }) {
   const totalPoints = calculateTotalPoints(orders);
 
   const totalsByNumericMonth = getNumericMonths(orders);
@@ -124,6 +127,6 @@ const PointDetails = (props) => {
       </Table>
     </>
   );
-};
+}
 
 export default PointDetails;

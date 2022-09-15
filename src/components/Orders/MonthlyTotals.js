@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+// **find new way of figuring this out**
 const groupTotalsByMonth = (totalsByNumericMonth, property) => {
   // Group totals by numeric month
   const totalsGroupedByMonth = totalsByNumericMonth
@@ -14,14 +16,18 @@ const groupTotalsByMonth = (totalsByNumericMonth, property) => {
   return totalsGroupedByMonth;
 };
 
-const MonthlyTotals = (props) => {
-  const { calculatePoints, totalsByNumericMonth } = props;
+MonthlyTotals.propTypes = {
+  calculatePoints: PropTypes.func.isRequired,
+  totalsByNumericMonth: PropTypes.array.isRequired,
+};
+
+function MonthlyTotals({ calculatePoints, totalsByNumericMonth }) {
   const groupedTotals = groupTotalsByMonth(totalsByNumericMonth, 'month');
 
   const monthlyTotals = groupedTotals.map((pointTotal, idx) => {
     return <td key={idx}>{calculatePoints(pointTotal)}</td>;
   });
   return <>{monthlyTotals}</>;
-};
+}
 
 export default MonthlyTotals;

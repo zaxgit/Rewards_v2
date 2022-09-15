@@ -1,61 +1,72 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './Customer.module.css';
-import useHttp from '../../hooks/use-http';
-
+import useHttpPromise from '../../hooks/use-http-promise';
 import { orderRequestConfig } from '../../config/config';
 import Card from '../UI/Card';
-import PointDetails from '../Orders/PointDetails';
-import Orders from '../Orders/Orders';
+import CustomerDetails from './CustomerDetails';
 
-const Customer = (props) => {
-  const { id, name } = props;
+Customer.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+};
 
+function Customer({ id, name }) {
   const [orders, setOrders] = useState([]);
-
-  const { isLoading, hasError, requestData } = useHttp();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const { fetchData: fetchCustomers } = useHttpPromise(orderRequestConfig);
 
   useEffect(() => {
-    const requestDataHandler = (allOrders) => {
-      if (allOrders) {
-        const filteredOrders = allOrders.filter(
-          (order) => id === order.customer
-        );
+    fetchCustomers()
+      .then((payload) => {
+        setIsLoading(true);
+        if (!payload.ok) {
+          throw new Error(
+            `Error ${payload.status}, ${payload.statusText}: Couldn't fetch orders!`
+          );
+        }
 
-        setOrders(filteredOrders);
-      }
-    };
+        return payload.json();
+      })
+      .then((data) => {
+        const customerOrders = [];
 
-    requestData(orderRequestConfig, requestDataHandler);
-  }, [requestData, id]);
+        for (const key in data) {
+          if (data[key].customer === id) {
+            customerOrders.push({
+              id: key,
+              customer: data[key].customer,
+              total: data[key].total,
+              date: data[key].date,
+            });
+          }
+        }
 
-  let content;
-  if (isLoading) {
-    content = <p>Customer orders loading!</p>;
-  }
-
-  if (hasError) {
-    content = <p>{hasError}</p>;
-  }
-
-  if (orders.length <= 0) {
-    content = <p>No orders found!</p>;
-  }
-
-  if (orders.length > 0)
-    content = (
-      <>
-        <Orders orders={orders} />
-        <PointDetails orders={orders} customerId={id} />
-      </>
-    );
+        setOrders(customerOrders);
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [fetchCustomers, id]);
 
   return (
     <Card className={classes.customer}>
       <h2>{name}</h2>
-      <div className={classes.content}>{content}</div>
+      <div className={classes.content}>
+        <CustomerDetails
+          orders={orders}
+          isLoading={isLoading}
+          errorMessage={errorMessage}
+          id={id}
+        />
+      </div>
     </Card>
   );
-};
+}
 
 export default Customer;
