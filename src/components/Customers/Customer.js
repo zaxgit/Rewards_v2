@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './Customer.module.css';
-import useHttpPromise from '../../hooks/use-http-promise';
 import { orderRequestConfig } from '../../config/config';
+
+import useHttpPromise from '../../hooks/use-http-promise';
 import Card from '../UI/Card';
 import CustomerDetails from './CustomerDetails';
 

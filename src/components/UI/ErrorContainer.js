@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
+
 import classes from './ErrorContainer.module.css';
+
 import Card from './Card';
 
 ErrorContainer.propTypes = {

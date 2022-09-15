@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 import classes from './Table.module.css';
 
 Table.propTypes = {

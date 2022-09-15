@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import classes from './Customers.module.css';
 
 import Lottie from 'lottie-react';
